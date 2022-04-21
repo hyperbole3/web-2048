@@ -227,6 +227,35 @@ document.addEventListener('keydown', function(event) {
   render();
 });
 
+let touchStartX = 0;
+let touchStartY = 0;
+
+document.addEventListener('touchstart', function(e) {
+  touchStartX = e.changedTouches[0].screenX;
+  touchStartY = e.changedTouches[0].screenY;
+});
+
+document.addEventListener('touchend', function(e) {
+  const touchEndX = e.changedTouches[0].screenX;
+  const touchEndY = e.changedTouches[0].screenY;
+  const dx = touchEndX - touchStartX;
+  const dy = touchEndY - touchStartY;
+  if (Math.abs(dx) > Math.abs(dy)) {
+    if (dx > 30) {
+      game.move('right');
+    } else if (dx < -30) {
+      game.move('left');
+    }
+  } else {
+    if (dy > 30) {
+      game.move('down');
+    } else if (dy < -30) {
+      game.move('up');
+    }
+  }
+  render();
+});
+
 function restartGame() {
   console.log('HI');
   game = new Game();
